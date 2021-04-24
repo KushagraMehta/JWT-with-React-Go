@@ -30,7 +30,6 @@ func main() {
 	router.Use(middleware.CommonMiddleware)
 	// , mux.CORSMethodMiddleware(router))
 
-	router.Handle("/", http.FileServer(http.Dir("./build")))
 	router.HandleFunc("/signup", handler.PostUser).Methods(http.MethodPost, http.MethodOptions)
 	router.HandleFunc("/login", handler.Login).Methods(http.MethodPost, http.MethodOptions)
 	router.HandleFunc("/logout", handler.Logout).Methods(http.MethodGet, http.MethodOptions)
@@ -40,6 +39,7 @@ func main() {
 	secure.HandleFunc("/user", handler.GetUser).Methods(http.MethodGet, http.MethodOptions)
 	secure.Use(middleware.Auth)
 
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("build")))
 	var addr string
 	if port == "" {
 		addr = "0.0.0.0:8090"
