@@ -1,0 +1,12 @@
+html,
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: #e1e8ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
