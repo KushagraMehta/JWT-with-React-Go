@@ -32,7 +32,7 @@ WORKDIR /root/
 
 # Copy the Pre-built binary file from the previous stage. Observe we also copied the .env file
 COPY --from=builder /app/backend/main .
-COPY --from=node_builder /build /build
+COPY --from=node_builder /build ./build
 
 #Command to run the executable
 CMD ["./main"]
