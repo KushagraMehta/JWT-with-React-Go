@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -16,6 +17,8 @@ import (
 
 var handler controller.Handler
 
+var port = os.Getenv("PORT")
+
 func main() {
 
 	var wait time.Duration
@@ -27,6 +30,7 @@ func main() {
 	router.Use(middleware.CommonMiddleware)
 	// , mux.CORSMethodMiddleware(router))
 
+	router.Handle("/", http.FileServer(http.Dir("./build")))
 	router.HandleFunc("/signup", handler.PostUser).Methods(http.MethodPost, http.MethodOptions)
 	router.HandleFunc("/login", handler.Login).Methods(http.MethodPost, http.MethodOptions)
 	router.HandleFunc("/logout", handler.Logout).Methods(http.MethodGet, http.MethodOptions)
@@ -36,8 +40,14 @@ func main() {
 	secure.HandleFunc("/user", handler.GetUser).Methods(http.MethodGet, http.MethodOptions)
 	secure.Use(middleware.Auth)
 
+	var addr string
+	if port == "" {
+		addr = "0.0.0.0:8090"
+	} else {
+		addr = fmt.Sprintf("0.0.0.0:%v", port)
+	}
 	srv := &http.Server{
-		Addr:         "0.0.0.0:8090",
+		Addr:         addr,
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
