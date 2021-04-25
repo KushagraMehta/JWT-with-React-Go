@@ -27,7 +27,7 @@ func main() {
 	handler.Init()
 
 	router := mux.NewRouter()
-	router.Use(middleware.CommonMiddleware)
+	// router.Use(middleware.CommonMiddleware)
 	// , mux.CORSMethodMiddleware(router))
 
 	router.HandleFunc("/signup", handler.PostUser).Methods(http.MethodPost, http.MethodOptions)
@@ -55,7 +55,7 @@ func main() {
 	}
 
 	go func() {
-		log.Println("Starting server at port http://localhost:8090")
+		log.Printf("Starting server at port http://%v\n", addr)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Println(err)
 		}
