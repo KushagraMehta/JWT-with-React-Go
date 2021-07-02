@@ -27,19 +27,20 @@ func main() {
 	handler.Init()
 
 	router := mux.NewRouter()
-	// router.Use(middleware.CommonMiddleware)
-	// , mux.CORSMethodMiddleware(router))
 
-	router.HandleFunc("/signup", handler.PostUser).Methods(http.MethodPost, http.MethodOptions)
-	router.HandleFunc("/login", handler.Login).Methods(http.MethodPost, http.MethodOptions)
-	router.HandleFunc("/logout", handler.Logout).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/signup", handler.PostUser).Methods(http.MethodPost)
+	router.HandleFunc("/login", handler.Login).Methods(http.MethodPost)
+	router.HandleFunc("/logout", handler.Logout).Methods(http.MethodGet)
 
 	secure := router.PathPrefix("/auth").Subrouter()
-	secure.HandleFunc("/", handler.Auth).Methods(http.MethodGet, http.MethodOptions)
-	secure.HandleFunc("/user", handler.GetUser).Methods(http.MethodGet, http.MethodOptions)
+	secure.HandleFunc("/", handler.Auth).Methods(http.MethodGet)
+	secure.HandleFunc("/user", handler.GetUser).Methods(http.MethodGet)
 	secure.Use(middleware.Auth)
 
+	// Hosting React build files
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("build")))
+
+	// ---------Code Under this is not important just for good programming practice--------------
 	var addr string
 	if port == "" {
 		addr = "0.0.0.0:8090"

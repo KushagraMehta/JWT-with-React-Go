@@ -9,8 +9,6 @@ export const authCheck = async (setAuth) => {
     headers: {
       "Content-Type": "application/json",
     },
-    mode: "cors",
-    credentials: "include",
   });
 
   if (response.status === 200) {
@@ -32,8 +30,6 @@ export const signUpAPI = async (data, setAuth) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    mode: "cors",
-    credentials: "include",
   });
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
@@ -54,8 +50,6 @@ export const loginAPI = async (data, setAuth) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    mode: "cors",
-    credentials: "include",
   });
   console.log(response);
   if (!response.ok) {
@@ -76,8 +70,6 @@ export const logout = async (setAuth) => {
     headers: {
       "Content-Type": "application/json",
     },
-    mode: "cors",
-    credentials: "include",
   });
   if (response.status === 200) {
     setAuth(false);
@@ -94,8 +86,6 @@ export const getUserData = async (setUserData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    mode: "cors",
-    credentials: "include",
   }).then((response) => response.json());
 
   setUserData({ email: data.email, username: data.username });
